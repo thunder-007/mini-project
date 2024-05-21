@@ -7,6 +7,18 @@ on:
 jobs:
   project_test:
     runs-on: ubuntu-latest
+    
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: Password!123
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "exit 0"
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
