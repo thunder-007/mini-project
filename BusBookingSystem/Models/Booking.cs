@@ -1,13 +1,26 @@
-﻿namespace BusBookingSystem.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+namespace BusBookingSystem.Models; 
+public class Booking
 {
-    public class Booking
-    {
-        public int BookingId { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
-        public int BusId { get; set; }
-        public Bus Bus { get; set; }
-        public DateTime BookingDate { get; set; }
-        public int SeatNumber { get; set; }
-    }
+    [Key]
+    public int BookingId { get; set; }
+    
+    [Required]
+    public int UserId { get; set; }
+    
+    [Required]
+    public int BusId { get; set; }
+    
+    [Required]
+    public DateTime BookingDate { get; set; }
+    
+    [Required]
+    public int SeatNumber { get; set; }
+    
+    public User User { get; set; }
+    
+    public Bus Bus { get; set; }
+    
+    public Payment Payment { get; set; }
 }

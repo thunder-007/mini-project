@@ -1,10 +1,19 @@
-﻿namespace BusBookingSystem.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BusBookingSystem.Models;
+public class Admin
 {
-    public class Admin
-    {
-        public int AdminId { get; set; }
-        public string AdminName { get; set; }
-        public string PasswordHash { get; set; }
-        public string Email { get; set; }
-    }
+    [Key]
+    public int AdminId { get; set; }
+    
+    [Required]
+    [MaxLength(50)]
+    public string AdminName { get; set; }
+    
+    [Required]
+    public string PasswordHash { get; set; }
+    
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
 }

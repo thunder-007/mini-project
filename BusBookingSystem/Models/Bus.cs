@@ -1,11 +1,24 @@
-﻿namespace BusBookingSystem.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+namespace BusBookingSystem.Models;
+public class Bus
 {
-    public class Bus 
-    {
-        public int BusId { get; set; }
-        public string BusNumber { get; set; }
-        public int Capacity { get; set; }
-        public int RouteId { get; set; }
-        public Route Route { get; set; }
-    }
+    [Key]
+    public int BusId { get; set; }
+    
+    [Required]
+    [MaxLength(20)]
+    public string BusNumber { get; set; }
+    
+    [Required]
+    public int Capacity { get; set; }
+    
+    [Required]
+    public int RouteId { get; set; }
+    
+    public Route Route { get; set; }
+    
+    public ICollection<Booking> Bookings { get; set; }
+    
+    public ICollection<Coupon> Coupons { get; set; }
 }
