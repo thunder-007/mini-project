@@ -2,11 +2,13 @@ using BusBookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using BusBookingSystem.Interfaces;
 using BusBookingSystem.Repositories;
-
+using BusBookingSystem.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<CoordinateService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
