@@ -2,6 +2,7 @@
 using BusBookingSystem.Models;
 using BusBookingSystem.Interfaces;
 using BusBookingSystem.Utils;
+using BusBookingSystem.Dtos;
 
 namespace BusBookingSystem.Services
 {
@@ -18,10 +19,16 @@ namespace BusBookingSystem.Services
 
         public IEnumerable<User> GetAllUsers() => _userRepository.GetAllUsers();
 
-        public void RegisterUser(User user)
+        public void RegisterUser(RegisterUserDto user)
         {
-            user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
-            _userRepository.AddUser(user);
+            var newUser = new User
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                PasswordHash = PasswordHelper.HashPassword(user.Password),
+                Role = "User"
+            };
+            _userRepository.AddUser(newUser);
         }
 
         public void UpdateUser(User user)

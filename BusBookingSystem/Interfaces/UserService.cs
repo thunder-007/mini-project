@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BusBookingSystem.Dtos;
 using BusBookingSystem.Models;
 
 namespace BusBookingSystem.Interfaces
@@ -7,7 +8,7 @@ namespace BusBookingSystem.Interfaces
     {
         User GetUserById(int userId);
         IEnumerable<User> GetAllUsers();
-        void RegisterUser(User user);
+        void RegisterUser(RegisterUserDto user);
         void UpdateUser(User user);
         void DeleteUser(int userId);
         bool ValidateUser(string email, string password);
