@@ -2,6 +2,7 @@
 using System.Linq;
 using BusBookingSystem.Models;
 using BusBookingSystem.Interfaces;
+using BusBookingSystem.Utils;
 
 namespace BusBookingSystem.Repositories
 {
@@ -41,5 +42,12 @@ namespace BusBookingSystem.Repositories
         }
 
         public User GetUserByEmail(string email) => _context.Users.FirstOrDefault(u => u.Email == email);
+        
+        public bool ValidateUser(string email, string password)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+    
+            return user != null && PasswordHelper.VerifyPassword(password, user.PasswordHash);
+        }
     }
 }

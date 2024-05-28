@@ -3,14 +3,14 @@ using BusBookingSystem.Models;
 
 namespace BusBookingSystem.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         User GetUserById(int userId);
         IEnumerable<User> GetAllUsers();
-        void AddUser(User user);
+        void RegisterUser(User user);
         void UpdateUser(User user);
         void DeleteUser(int userId);
-        User GetUserByEmail(string email);
         bool ValidateUser(string email, string password);
+        User GetUserByEmail(string email);
     }
 }
