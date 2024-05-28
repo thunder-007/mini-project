@@ -60,6 +60,5 @@ public class JwtService(IConfiguration configuration,IUserService user) : IJwtSe
     public bool ValidateUser(string email, string password)
     {
         return _userService.ValidateUser(email, password);
-
     }
 }

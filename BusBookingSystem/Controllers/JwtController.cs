@@ -5,7 +5,7 @@ using BusBookingSystem.Dtos;
 using BusBookingSystem.Services;
 using Microsoft.AspNetCore.Authentication;
 
-namespace WebApi.Controllers;
+namespace BusBookingSystem.Controllers;
 
 [Route("/api/jwt")]
 [ApiController]
@@ -20,14 +20,11 @@ public class JwtController(IJwtService service, ILogger<JwtController> logger) :
     {
         try
         {
-            // Validate the user credentials here (this could be a call to a user service)
-            // For the sake of simplicity, let's assume the validation is successful if username and password are not empty
             if (string.IsNullOrEmpty(loginDto.Email) || string.IsNullOrEmpty(loginDto.Password))
             {
                 throw new AuthenticationFailureException("Invalid username or password.");
             }
 
-            // Assuming a method ValidateUser exists in your service
             var isValidUser = _service.ValidateUser(loginDto.Email, loginDto.Password);
             if (!isValidUser)
             {

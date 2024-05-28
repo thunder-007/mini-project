@@ -3,6 +3,7 @@ using BusBookingSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using BusBookingSystem.Dtos;
 
 namespace BusBookingSystem.Controllers
 {
@@ -17,8 +18,8 @@ namespace BusBookingSystem.Controllers
             _coordinateService = coordinateService;
         }
 
-        [HttpGet("stream-random-coordinates")]
-        public IActionResult StreamRandomCoordinates()
+        [HttpGet("stream")]
+        public IActionResult StreamRandomCoordinates(BusStreamDto bus)
         {
             var channel = Channel.CreateUnbounded<RouteCoordinate>();
 
