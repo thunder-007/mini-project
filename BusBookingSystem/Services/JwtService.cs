@@ -6,16 +6,23 @@ using BusBookingSystem.Interfaces;
 
 namespace BusBookingSystem.Services;
 
-
-public class JwtService(IConfiguration configuration,IUserService user) : IJwtService
+public class JwtService : IJwtService
 {
-    private readonly IUserService _userService = user;
-    private readonly string _secretKey = configuration["Jwt:SecretKey"]
-        ?? throw new NullReferenceException("JWT Secret Key is not configured.");
-    private readonly string _issuer = configuration["Jwt:Issuer"]
-        ?? throw new NullReferenceException("JWT Issuer is not configured.");
-    private readonly string _audience = configuration["Jwt:Audience"]
-        ?? throw new NullReferenceException("JWT Audience is not configured.");
+    private readonly IUserService _userService;
+    private readonly string _secretKey;
+    private readonly string _issuer;
+    private readonly string _audience;
+
+    public JwtService(IConfiguration configuration, IUserService userService)
+    {
+        _userService = userService;
+        _secretKey = configuration["Jwt:SecretKey"]
+            ?? throw new NullReferenceException("JWT Secret Key is not configured.");
+        _issuer = configuration["Jwt:Issuer"]
+            ?? throw new NullReferenceException("JWT Issuer is not configured.");
+        _audience = configuration["Jwt:Audience"]
+            ?? throw new NullReferenceException("JWT Audience is not configured.");
+    }
 
     public string GenerateToken(string username, string role)
     {
@@ -54,7 +61,7 @@ public class JwtService(IConfiguration configuration,IUserService user) : IJwtSe
             IssuerSigningKey = new SymmetricSecurityKey(key)
         }, out SecurityToken validatedToken);
 
-         return tokenHandler.ReadJwtToken(jwt).Subject;
+        return tokenHandler.ReadJwtToken(jwt).Subject;
     }
 
     public bool ValidateUser(string email, string password)

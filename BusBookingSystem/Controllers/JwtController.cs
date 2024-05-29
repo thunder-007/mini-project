@@ -7,14 +7,22 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace BusBookingSystem.Controllers;
 
-[Route("/api/jwt")]
+[Route("/api/auth")]
 [ApiController]
-public class JwtController(IJwtService service, ILogger<JwtController> logger) : ControllerBase
+public class JwtController : ControllerBase
 {
-    private readonly IJwtService _service = service;
-    private readonly ILogger<JwtController> _logger = logger;
+    private readonly IJwtService _service;
+    private readonly IUserService _userService;
+    private readonly ILogger<JwtController> _logger;
 
-    [HttpPost("generate-token")]
+    public JwtController(IJwtService service, IUserService userService, ILogger<JwtController> logger)
+    {
+        _service = service;
+        _userService = userService;
+        _logger = logger;
+    }
+
+    [HttpPost("jwt")]
     [ProducesResponseType(typeof(JwtGetDto), StatusCodes.Status200OK)]
     public IActionResult GenerateToken([FromBody] LoginDto loginDto)
     {
@@ -30,8 +38,9 @@ public class JwtController(IJwtService service, ILogger<JwtController> logger) :
             {
                 throw new AuthenticationFailureException("Invalid username or password.");
             }
-            
-            var role = "User";
+
+            var user = _userService.GetUserByEmail(loginDto.Email);
+            var role = user.Role;
 
             _logger.LogInformation("Generating a new JWT token.");
 
