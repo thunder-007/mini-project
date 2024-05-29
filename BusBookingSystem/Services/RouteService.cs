@@ -5,6 +5,7 @@ using BusBookingSystem.Interfaces;
 using BusBookingSystem.Models;
 using Route = BusBookingSystem.Models.Route;
 
+namespace BusBookingSystem.Services;
 public class RouteService : IRouteService
 {
     private readonly IRouteRepository _routeRepository;
