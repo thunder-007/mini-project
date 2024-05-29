@@ -7,6 +7,8 @@ namespace BusBookingSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
+
     public class RouteController : ControllerBase
     {
         private readonly IRouteService _routeService;
@@ -33,7 +35,6 @@ namespace BusBookingSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public IActionResult AddRoute([FromBody] CreateRouteDto createRouteDto)
         {
             if (!ModelState.IsValid)
