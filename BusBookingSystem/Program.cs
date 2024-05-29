@@ -105,6 +105,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IRouteService, RouteService>();
+builder.Services.AddScoped<IBusRepository, BusRepository>();
+builder.Services.AddScoped<IBusService, BusService>();
+
 
 var app = builder.Build();
 
