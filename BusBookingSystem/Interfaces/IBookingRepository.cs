@@ -6,6 +6,8 @@ namespace BusBookingSystem.Interfaces
     public interface IBookingRepository
     {
         void CreateBooking(Booking booking);
+        int GetBookingsCountByBusId(int busId);
+
 
         // Booking GetBookingById(int bookingId);
         // IEnumerable<Booking> GetAllBookings();

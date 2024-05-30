@@ -19,5 +19,10 @@ namespace BusBookingSystem.Repositories
             _context.Bookings.Add(booking);
             _context.SaveChanges();
         }
+        public int GetBookingsCountByBusId(int busId)
+        {
+            return _context.Bookings.Count(b => b.BusId == busId);
+        }
+
     }
 }

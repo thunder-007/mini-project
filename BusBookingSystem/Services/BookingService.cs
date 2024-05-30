@@ -28,6 +28,13 @@ public class BookingService
         {
             throw new Exception("Bus not found");
         }
+        var currentBookingsCount = _bookingRepository.GetBookingsCountByBusId(dto.BusId);
+        if (currentBookingsCount >= bus.Capacity)
+        {
+            throw new Exception("Bus is fully booked");
+        }
+
+
         
         Coupon coupon = null;
         if (!string.IsNullOrEmpty(dto.CouponCode))
