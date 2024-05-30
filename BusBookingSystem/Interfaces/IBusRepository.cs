@@ -10,5 +10,7 @@ namespace BusBookingSystem.Interfaces
         void AddBus(Bus bus);
         void UpdateBus(Bus bus);
         void DeleteBus(int busId);
+        void SaveChanges();
+
     }
 }

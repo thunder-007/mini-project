@@ -7,7 +7,7 @@ namespace BusBookingSystem.Interfaces
     {
         BusDto GetBusById(int busId);
         IEnumerable<BusDto> GetAllBuses();
-        void AddBus(CreateBusDto createBusDto);
+        BusDto AddBus(CreateBusDto createBusDto);
         void UpdateBus(BusDto busDto);
         void DeleteBus(int busId);
     }

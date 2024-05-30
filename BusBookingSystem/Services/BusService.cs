@@ -27,11 +27,21 @@ namespace BusBookingSystem.Services
             return buses.Select(b => MapToDto(b));
         }
 
-        public void AddBus(CreateBusDto createBusDto)
+        public BusDto AddBus(CreateBusDto createBusDto)
         {
-            var bus = MapToEntity(createBusDto);
+            var bus = new Bus
+            {
+                BusNumber = createBusDto.BusNumber,
+                Capacity = createBusDto.Capacity,
+                RouteId = createBusDto.RouteId
+            };
+
             _busRepository.AddBus(bus);
+            _busRepository.SaveChanges();
+
+            return MapToDto(bus);
         }
+
 
         public void UpdateBus(BusDto busDto)
         {

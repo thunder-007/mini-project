@@ -37,9 +37,10 @@ namespace BusBookingSystem.Controllers
         [HttpPost]
         public ActionResult AddBus([FromBody] CreateBusDto createBusDto)
         {
-            _busService.AddBus(createBusDto);
-            return CreatedAtAction(nameof(GetBusById), new { id = createBusDto.BusNumber }, createBusDto);
+            var createdBus = _busService.AddBus(createBusDto);
+            return CreatedAtAction(nameof(GetBusById), new { id = createdBus.BusId }, createdBus);
         }
+
 
         [HttpPut("{id}")]
         public ActionResult UpdateBus(int id, [FromBody] BusDto busDto)
