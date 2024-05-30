@@ -30,3 +30,6 @@ jobs:
 
       - name: Build Project
         run: dotnet build
+      
+      - name: Run Tests
+        run: dotnet test
