@@ -24,12 +24,13 @@ public class JwtService : IJwtService
             ?? throw new NullReferenceException("JWT Audience is not configured.");
     }
 
-    public string GenerateToken(string username, string role)
+    public string GenerateToken(string email, string role)
     {
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, username),
-            new Claim(ClaimTypes.Role, role)
+            new Claim(JwtRegisteredClaimNames.Sub, email),
+            new Claim(ClaimTypes.Role, role),
+            new Claim(ClaimTypes.Email, email)
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));

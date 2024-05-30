@@ -2,6 +2,8 @@
 using System.Linq;
 using BusBookingSystem.Interfaces;
 using BusBookingSystem.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace BusBookingSystem.Repositories
 {
@@ -13,6 +15,12 @@ namespace BusBookingSystem.Repositories
         {
             _context = context;
         }
+        public Coupon GetCouponByCode(string code)
+        {
+            return _context.Coupons.FirstOrDefault(c => c.Code == code);
+        }
+
+
 
         public Coupon GetCouponById(int couponId) => _context.Coupons.Find(couponId);
 
@@ -23,6 +31,11 @@ namespace BusBookingSystem.Repositories
             _context.Coupons.Add(coupon);
             _context.SaveChanges();
         }
+        public Task<Coupon> GetCouponByCodeAsync(string code)
+        {
+            return _context.Coupons.FirstOrDefaultAsync(c => c.Code == code);
+        }
+
 
         public void UpdateCoupon(Coupon coupon)
         {

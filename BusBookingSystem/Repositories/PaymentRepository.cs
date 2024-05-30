@@ -17,6 +17,13 @@ namespace BusBookingSystem.Repositories
         public Payment GetPaymentById(int paymentId) => _context.Payments.Find(paymentId);
 
         public IEnumerable<Payment> GetAllPayments() => _context.Payments.ToList();
+        
+        public void CreatePayment(Payment payment)
+        {
+            _context.Payments.Add(payment);
+            _context.SaveChanges();
+        }
+
 
         public void AddPayment(Payment payment)
         {

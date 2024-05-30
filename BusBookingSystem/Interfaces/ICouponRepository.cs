@@ -7,6 +7,8 @@ namespace BusBookingSystem.Interfaces
     {
         Coupon GetCouponById(int couponId);
         IEnumerable<Coupon> GetAllCoupons();
+        Coupon GetCouponByCode(string code);
+
         void AddCoupon(Coupon coupon);
         void UpdateCoupon(Coupon coupon);
         void DeleteCoupon(int couponId);

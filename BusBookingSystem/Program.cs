@@ -109,6 +109,7 @@ builder.Services.AddScoped<IBusRepository, BusRepository>();
 builder.Services.AddScoped<IBusService, BusService>();
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<BookingService>();
 
 
 
