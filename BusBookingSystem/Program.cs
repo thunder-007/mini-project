@@ -95,7 +95,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("UserPolicy", policy => policy.RequireRole("User"));
 });
 
-builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IBusRepository, BusRepository>();
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();

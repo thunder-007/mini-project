@@ -28,6 +28,12 @@ public class BookingService
         {
             throw new Exception("Bus not found");
         }
+        var route = bus.Route;
+        if (route.DepartureTime <= DateTime.Now)
+        {
+            throw new Exception("Cannot book seat bus has already departed");
+        }
+
         var currentBookingsCount = _bookingRepository.GetBookingsCountByBusId(dto.BusId);
         if (currentBookingsCount >= bus.Capacity)
         {
