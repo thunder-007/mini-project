@@ -103,5 +103,59 @@ public class BookingsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpDelete("{bookingId}")]
+    public IActionResult CancelBooking(int bookingId)
+    {
+        try
+        {
+            var emailClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+            if (emailClaim == null)
+            {
+                return Unauthorized("Email claim not found in token.");
+            }
+
+            var email = emailClaim.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingId && b.UserId == user.UserId);
+            if (booking == null)
+            {
+                return NotFound("Booking not found.");
+            }
+
+            // Record the cancellation details
+            var cancellation = new Cancellation
+            {
+                BookingId = bookingId,
+                CancellationDate = DateTime.UtcNow,
+                Reason = "User requested cancellation"
+            };
+            _context.Cancellations.Add(cancellation);
+
+            // Increase the bus capacity
+            var bus = _context.Buses.FirstOrDefault(b => b.BusId == booking.BusId);
+            if (bus != null)
+            {
+                bus.Capacity += 1;
+                _context.Buses.Update(bus);
+            }
+
+            // Remove the booking
+            _context.Bookings.Remove(booking);
+            _context.SaveChanges();
+
+            return Ok("Booking cancelled and bus capacity updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 
 }

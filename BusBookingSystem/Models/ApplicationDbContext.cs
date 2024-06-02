@@ -14,6 +14,8 @@ namespace BusBookingSystem.Models
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Cancellation> Cancellations { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
