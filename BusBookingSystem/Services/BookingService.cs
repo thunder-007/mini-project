@@ -1,7 +1,7 @@
 using System;
 using BusBookingSystem.Interfaces;
 using BusBookingSystem.Models;
-    
+
 public class BookingService
 {
     private readonly IBusRepository _busRepository;
@@ -29,11 +29,18 @@ public class BookingService
             throw new Exception("Bus not found");
         }
         var route = bus.Route;
-        if (route.DepartureTime <= DateTime.Now)
+        Console.WriteLine(route.DepartureTime);
+        Console.WriteLine(DateTime.Now);
+        if (route.DepartureTime < DateTime.Now)
         {
-            throw new Exception("Cannot book seat bus has already departed");
+            throw new Exception("Bus has already departed");
+        }
+        if (dto.BookingDate >= route.DepartureTime)
+        {
+            throw new Exception("Booking date must be before the departure date");
         }
 
+        
         var currentBookingsCount = _bookingRepository.GetBookingsCountByBusId(dto.BusId);
         if (currentBookingsCount >= bus.Capacity)
         {

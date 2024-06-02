@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BusBookingSystem.Models;
+using Microsoft.EntityFrameworkCore;
 using BusBookingSystem.Interfaces;
 
 namespace BusBookingSystem.Repositories
@@ -14,7 +15,13 @@ namespace BusBookingSystem.Repositories
             _context = context;
         }
 
-        public Bus GetBusById(int busId) => _context.Buses.Find(busId);
+        public Bus GetBusById(int busId)
+        {
+            return _context.Buses
+                .Include(b => b.Route)
+                .FirstOrDefault(b => b.BusId == busId);
+        }
+
 
         public IEnumerable<Bus> GetAllBuses() => _context.Buses.ToList();
 
