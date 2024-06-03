@@ -43,14 +43,38 @@ public class BookingsController : ControllerBase
                 return Unauthorized("User not found.");
             }
 
-            _bookingService.CreateBooking(user.UserId, dto);
-            return Ok("Booking created successfully");
+            var booking = _bookingService.CreateBooking(user.UserId, dto);
+
+            var bookingDetails = new 
+            {
+                booking.BookingId,
+                booking.BusId,
+                booking.BookingDate,
+                booking.SeatNumber,
+                BusDetails = new 
+                {
+                    booking.Bus.BusId,
+                    booking.Bus.BusNumber,
+                    booking.Bus.Capacity
+                },
+                PaymentDetails = new 
+                {
+                    booking.Payment.PaymentId,
+                    booking.Payment.Amount,
+                    booking.Payment.PaymentDate,
+                    booking.Payment.PaymentMethod,
+                    booking.Payment.Status
+                }
+            };
+
+            return Ok(bookingDetails);
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
     }
+
     [HttpGet]
     public IActionResult GetUserBookings()
     {
@@ -95,7 +119,6 @@ public class BookingsController : ControllerBase
                 })
                 .ToList();
 
-
             return Ok(bookings);
         }
         catch (Exception ex)
@@ -103,6 +126,7 @@ public class BookingsController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
     [HttpDelete("{bookingId}")]
     public IActionResult CancelBooking(int bookingId)
     {
@@ -128,7 +152,6 @@ public class BookingsController : ControllerBase
                 return NotFound("Booking not found.");
             }
 
-            // Record the cancellation details
             var cancellation = new Cancellation
             {
                 BookingId = bookingId,
@@ -137,7 +160,6 @@ public class BookingsController : ControllerBase
             };
             _context.Cancellations.Add(cancellation);
 
-            // Increase the bus capacity
             var bus = _context.Buses.FirstOrDefault(b => b.BusId == booking.BusId);
             if (bus != null)
             {
@@ -145,17 +167,19 @@ public class BookingsController : ControllerBase
                 _context.Buses.Update(bus);
             }
 
-            // Remove the booking
             _context.Bookings.Remove(booking);
             _context.SaveChanges();
 
-            return Ok("Booking cancelled and bus capacity updated successfully.");
+            return Ok(new
+            {
+                Message = "Booking cancelled",
+                Booking = booking,
+                Cancellation = cancellation
+            });
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
     }
-
-
 }

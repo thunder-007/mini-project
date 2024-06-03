@@ -21,16 +21,15 @@ public class BookingService
         _paymentRepository = paymentRepository;
     }
 
-    public void CreateBooking(int userId, CreateBookingDto dto)
+    public Booking CreateBooking(int userId, CreateBookingDto dto)
     {
         var bus = _busRepository.GetBusById(dto.BusId);
         if (bus == null)
         {
             throw new Exception("Bus not found");
         }
+
         var route = bus.Route;
-        Console.WriteLine(route.DepartureTime);
-        Console.WriteLine(DateTime.Now);
         if (route.DepartureTime < DateTime.Now)
         {
             throw new Exception("Bus has already departed");
@@ -40,15 +39,12 @@ public class BookingService
             throw new Exception("Booking date must be before the departure date");
         }
 
-        
         var currentBookingsCount = _bookingRepository.GetBookingsCountByBusId(dto.BusId);
         if (currentBookingsCount >= bus.Capacity)
         {
             throw new Exception("Bus is fully booked");
         }
 
-
-        
         Coupon coupon = null;
         if (!string.IsNullOrEmpty(dto.CouponCode))
         {
@@ -60,7 +56,7 @@ public class BookingService
             coupon.RedemptionLimit--;
             _couponRepository.UpdateCoupon(coupon);
         }
-        
+
         var booking = new Booking
         {
             UserId = userId,
@@ -69,7 +65,7 @@ public class BookingService
             SeatNumber = dto.SeatNumber
         };
         _bookingRepository.CreateBooking(booking);
-        
+
         var payment = new Payment
         {
             BookingId = booking.BookingId,
@@ -79,5 +75,7 @@ public class BookingService
             Status = "Completed"
         };
         _paymentRepository.CreatePayment(payment);
+
+        return booking;
     }
 }
