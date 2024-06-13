@@ -23,6 +23,11 @@ namespace BusBookingSystem.Repositories
         {
             return _context.Bookings.Count(b => b.BusId == busId);
         }
+        public Booking GetBookingByBusIdAndSeatNumber(int busId, int seatNumber)
+        {
+            return _context.Bookings.FirstOrDefault(b => b.BusId == busId && b.SeatNumber == seatNumber);
+        }
+
 
     }
 }

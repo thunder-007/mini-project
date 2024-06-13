@@ -2,6 +2,9 @@
 using System.Linq;
 using BusBookingSystem.Models;
 using BusBookingSystem.Interfaces;
+using BusBookingSystem.Exceptions;
+using BusBookingSystem.Models;
+
 using Route = BusBookingSystem.Models.Route;
 
 namespace BusBookingSystem.Repositories
@@ -21,12 +24,14 @@ namespace BusBookingSystem.Repositories
 
         public void AddRoute(Route route)
         {
+            ValidateRouteTimes(route);
             _context.Routes.Add(route);
             _context.SaveChanges();
         }
 
         public void UpdateRoute(Route route)
         {
+            ValidateRouteTimes(route);
             _context.Routes.Update(route);
             _context.SaveChanges();
         }
@@ -38,6 +43,14 @@ namespace BusBookingSystem.Repositories
             {
                 _context.Routes.Remove(route);
                 _context.SaveChanges();
+            }
+        }
+
+        private void ValidateRouteTimes(Route route)
+        {
+            if (route.DepartureTime >= route.ArrivalTime)
+            {
+                throw new TimeConflictException("Time conflict: Departure time must be before arrival time.");
             }
         }
     }

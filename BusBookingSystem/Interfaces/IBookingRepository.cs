@@ -7,6 +7,8 @@ namespace BusBookingSystem.Interfaces
     {
         void CreateBooking(Booking booking);
         int GetBookingsCountByBusId(int busId);
+        Booking GetBookingByBusIdAndSeatNumber(int busId, int seatNumber);
+
 
 
         // Booking GetBookingById(int bookingId);

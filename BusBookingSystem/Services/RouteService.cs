@@ -45,6 +45,11 @@ public class RouteService : IRouteService
 
     public Route AddRoute(CreateRouteDto createRouteDto)
     {
+        if (createRouteDto.ArrivalTime < createRouteDto.DepartureTime)
+        {
+            
+            
+        }
         var route = new Route
         {
             Source = createRouteDto.Source,

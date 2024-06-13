@@ -44,6 +44,12 @@ public class BookingService
         {
             throw new Exception("Bus is fully booked");
         }
+        var existingBooking = _bookingRepository.GetBookingByBusIdAndSeatNumber(dto.BusId, dto.SeatNumber);
+        if (existingBooking != null)
+        {
+            throw new Exception("Seat number is already booked");
+        }
+
 
         Coupon coupon = null;
         if (!string.IsNullOrEmpty(dto.CouponCode))
