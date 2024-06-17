@@ -11,5 +11,6 @@ namespace BusBookingSystem.Interfaces
         void UpdateBus(BusDto busDto);
         void DeleteBus(int busId);
         IEnumerable<BusDto> SearchBuses(string source, string destination);
+        IEnumerable<int> GetBookedSeatNumbers(int busId);  
     }
 }

@@ -19,7 +19,7 @@ namespace BusBookingSystem.Controllers
         }
 
         [HttpGet("stream")]
-        public IActionResult StreamRandomCoordinates(BusStreamDto bus)
+        public IActionResult StreamRandomCoordinates([FromQuery] BusStreamDto bus)
         {
             var channel = Channel.CreateUnbounded<RouteCoordinate>();
 
@@ -27,6 +27,7 @@ namespace BusBookingSystem.Controllers
 
             return new PushStreamResult(channel.Reader);
         }
+
     }
 
     public class PushStreamResult : IActionResult

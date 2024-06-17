@@ -72,6 +72,17 @@ namespace BusBookingSystem.Controllers
             var buses = _busService.SearchBuses(source, destination);
             return Ok(buses);
         }
+        [HttpGet("{id}/booked-seats")]
+        public ActionResult<IEnumerable<int>> GetBookedSeatNumbers(int id)
+        {
+            var bookedSeats = _busService.GetBookedSeatNumbers(id);
+            if (bookedSeats == null)
+            {
+                return NotFound();
+            }
+            return Ok(bookedSeats);
+        }
+
 
     }
 }

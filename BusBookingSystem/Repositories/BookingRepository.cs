@@ -27,6 +27,11 @@ namespace BusBookingSystem.Repositories
         {
             return _context.Bookings.FirstOrDefault(b => b.BusId == busId && b.SeatNumber == seatNumber);
         }
+        public IEnumerable<Booking> GetBookedSeatsByBusId(int busId)
+        {
+            return _context.Bookings.Where(b => b.BusId == busId).ToList();
+        }
+
 
 
     }

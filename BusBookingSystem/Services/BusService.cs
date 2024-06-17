@@ -9,10 +9,12 @@ namespace BusBookingSystem.Services
     public class BusService : IBusService
     {
         private readonly IBusRepository _busRepository;
+        private readonly IBookingRepository _bookingRepository;  // Assuming you have a booking repository
 
-        public BusService(IBusRepository busRepository)
+        public BusService(IBusRepository busRepository, IBookingRepository bookingRepository)
         {
             _busRepository = busRepository;
+            _bookingRepository = bookingRepository;
         }
 
         public BusDto GetBusById(int busId)
@@ -42,7 +44,6 @@ namespace BusBookingSystem.Services
             return MapToDto(bus);
         }
 
-
         public void UpdateBus(BusDto busDto)
         {
             var bus = MapToEntity(busDto);
@@ -52,6 +53,23 @@ namespace BusBookingSystem.Services
         public void DeleteBus(int busId)
         {
             _busRepository.DeleteBus(busId);
+        }
+
+        public IEnumerable<BusDto> SearchBuses(string source, string destination)
+        {
+            var buses = _busRepository.SearchBuses(source, destination);
+            return buses.Select(b => new BusDto
+            {
+                BusId = b.BusId,
+                BusNumber = b.BusNumber,
+                Capacity = b.Capacity,
+            }).ToList();
+        }
+
+        public IEnumerable<int> GetBookedSeatNumbers(int busId)
+        {
+            var bookedSeats = _bookingRepository.GetBookedSeatsByBusId(busId);
+            return bookedSeats.Select(b => b.SeatNumber);
         }
 
         private BusDto MapToDto(Bus bus)
@@ -84,16 +102,6 @@ namespace BusBookingSystem.Services
                 Capacity = busDto.Capacity,
                 RouteId = busDto.RouteId
             };
-        }
-        public IEnumerable<BusDto> SearchBuses(string source, string destination)
-        {
-            var buses = _busRepository.SearchBuses(source, destination);
-            return buses.Select(b => new BusDto
-            {
-                BusId = b.BusId,
-                BusNumber = b.BusNumber,
-                Capacity = b.Capacity,
-            }).ToList();
         }
     }
 }
