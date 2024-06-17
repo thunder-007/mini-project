@@ -66,5 +66,12 @@ namespace BusBookingSystem.Controllers
             _busService.DeleteBus(id);
             return NoContent();
         }
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<BusDto>> SearchBuses([FromQuery] string source, [FromQuery] string destination)
+        {
+            var buses = _busService.SearchBuses(source, destination);
+            return Ok(buses);
+        }
+
     }
 }

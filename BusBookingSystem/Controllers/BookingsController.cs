@@ -159,7 +159,7 @@ public class BookingsController : ControllerBase
                 Reason = "User requested cancellation"
             };
             _context.Cancellations.Add(cancellation);
-
+            _context.SaveChanges();
             var bus = _context.Buses.FirstOrDefault(b => b.BusId == booking.BusId);
             if (bus != null)
             {
@@ -173,7 +173,6 @@ public class BookingsController : ControllerBase
             return Ok(new
             {
                 Message = "Booking cancelled",
-                Booking = booking,
                 Cancellation = cancellation
             });
         }

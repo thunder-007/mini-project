@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using BusBookingSystem.Models;
-
+using BusBookingSystem.Dtos;
 namespace BusBookingSystem.Interfaces
 {
     public interface IBusRepository
@@ -11,6 +11,7 @@ namespace BusBookingSystem.Interfaces
         void UpdateBus(Bus bus);
         void DeleteBus(int busId);
         void SaveChanges();
+        IEnumerable<Bus> SearchBuses(string source, string destination);
 
     }
 }

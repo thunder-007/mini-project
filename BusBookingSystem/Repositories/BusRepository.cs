@@ -4,6 +4,7 @@ using BusBookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using BusBookingSystem.Interfaces;
 
+
 namespace BusBookingSystem.Repositories
 {
     public class BusRepository : IBusRepository
@@ -50,6 +51,14 @@ namespace BusBookingSystem.Repositories
         {
             _context.SaveChanges();
         }
+        public IEnumerable<Bus> SearchBuses(string source, string destination)
+        {
+            return _context.Buses
+                .Include(b => b.Route)
+                .Where(b => b.Route.Source == source && b.Route.Destination == destination)
+                .ToList();
+        }
+
 
     }
 }

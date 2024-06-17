@@ -85,5 +85,15 @@ namespace BusBookingSystem.Services
                 RouteId = busDto.RouteId
             };
         }
+        public IEnumerable<BusDto> SearchBuses(string source, string destination)
+        {
+            var buses = _busRepository.SearchBuses(source, destination);
+            return buses.Select(b => new BusDto
+            {
+                BusId = b.BusId,
+                BusNumber = b.BusNumber,
+                Capacity = b.Capacity,
+            }).ToList();
+        }
     }
 }

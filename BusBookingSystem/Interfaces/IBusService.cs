@@ -10,5 +10,6 @@ namespace BusBookingSystem.Interfaces
         BusDto AddBus(CreateBusDto createBusDto);
         void UpdateBus(BusDto busDto);
         void DeleteBus(int busId);
+        IEnumerable<BusDto> SearchBuses(string source, string destination);
     }
 }

@@ -49,6 +49,7 @@ public class BookingService
         {
             throw new Exception("Seat number is already booked");
         }
+        decimal discountAmount = 0;
 
 
         Coupon coupon = null;
@@ -59,9 +60,13 @@ public class BookingService
             {
                 throw new Exception("Invalid or expired coupon");
             }
+            discountAmount = dto.Amount * (coupon.DiscountPercentage / 100m);
+
             coupon.RedemptionLimit--;
             _couponRepository.UpdateCoupon(coupon);
         }
+        var finalAmount = dto.Amount - discountAmount;
+
 
         var booking = new Booking
         {
@@ -75,7 +80,7 @@ public class BookingService
         var payment = new Payment
         {
             BookingId = booking.BookingId,
-            Amount = dto.Amount,
+            Amount = finalAmount,
             PaymentDate = DateTime.Now,
             PaymentMethod = dto.PaymentMethod,
             Status = "Completed"
